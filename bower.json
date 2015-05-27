@@ -1,5 +1,5 @@
 {
-  "name": "bootstrap-dropdowns-enhancement",
+  "name": "bootstrap-dropdowns-enhancement-for-hover",
   "version": "0.0.1",
   "main": [
     "./dist/css/dropdowns-enhancement.css",

@@ -8,7 +8,7 @@
 (function($) {
     "use strict";
 
-    var toggle   = '[data-toggle="dropdown"]',
+    var toggle = '[data-hover="dropdown"]',
         disabled = '.disabled, :disabled',
         backdrop = '.dropdown-backdrop',
         menuClass = 'dropdown-menu',
@@ -27,8 +27,7 @@
     var proto = Dropdown.prototype;
 
     proto.toggle = function(event) {
-        var $element = $(this);
-
+        var $element = event.type == "show" ? $(event.target) : $(this);
         if ($element.is(disabled)) return;
 
         var $parent = getParent($element);
@@ -38,17 +37,16 @@
 
         closeOpened(event, menuTree);
 
-        if (!isActive) {
+        if (true || !isActive) {
             if (!menuTree)
                 menuTree = [$parent];
-
             if (touchSupport && !$parent.closest('.navbar-nav').length && !menuTree[0].find(backdrop).length) {
                 // if mobile we use a backdrop because click events don't delegate
                 $('<div class="' + backdrop.substr(1) + '"/>').appendTo(menuTree[0]).on('click', closeOpened)
             }
 
             for (var i = 0, s = menuTree.length; i < s; i++) {
-                if (!menuTree[i].hasClass(openClass)) {
+                if (true || !menuTree[i].hasClass(openClass)) {
                     menuTree[i].addClass(openClass);
                     positioning(menuTree[i].children('.' + menuClass), menuTree[i]);
                 }
@@ -59,7 +57,7 @@
         return false;
     };
 
-    proto.keydown = function (e) {
+    proto.keydown = function(e) {
         if (!/(38|40|27)/.test(e.keyCode)) return;
 
         var $this = $(this);
@@ -85,17 +83,17 @@
 
         var index = $items.index($items.filter(':focus'));
 
-        if (e.keyCode == 38 && index > 0)                 index--;                        // up
-        if (e.keyCode == 40 && index < $items.length - 1) index++;                        // down
-        if (!~index)                                      index = 0;
+        if (e.keyCode == 38 && index > 0) index--; // up
+        if (e.keyCode == 40 && index < $items.length - 1) index++; // down
+        if (!~index) index = 0;
 
         $items.eq(index).trigger('focus')
     };
 
-    proto.change = function (e) {
+    proto.change = function(e) {
 
         var
-            $parent,
+        $parent,
             $menu,
             $toggle,
             selector,
@@ -120,7 +118,7 @@
 
         if ($items.length) {
             text = [];
-            $items.each(function () {
+            $items.each(function() {
                 var str = $(this).parent().find('label').eq(0),
                     label = str.find('.data-label');
 
@@ -128,8 +126,7 @@
                     var p = $('<p></p>');
                     p.append(label.clone());
                     str = p.html();
-                }
-                else {
+                } else {
                     str = str.html();
                 }
 
@@ -221,8 +218,8 @@
 
     var old = $.fn.dropdown;
 
-    $.fn.dropdown = function (option) {
-        return this.each(function () {
+    $.fn.dropdown = function(option) {
+        return this.each(function() {
             var $this = $(this);
             var data = $this.data('bs.dropdown');
 
@@ -235,9 +232,11 @@
 
     $.fn.dropdown.clearMenus = function(e) {
         $(backdrop).remove();
-        $('.' + openClass + ' ' + toggle).each(function () {
+        $('.' + openClass + ' ' + toggle).each(function() {
             var $parent = getParent($(this));
-            var relatedTarget = { relatedTarget: this };
+            var relatedTarget = {
+                relatedTarget: this
+            };
             if (!$parent.hasClass('open')) return;
             $parent.trigger(e = $.Event('hide' + eventNamespace, relatedTarget));
             if (e.isDefaultPrevented()) return;
@@ -250,7 +249,7 @@
     // DROPDOWN NO CONFLICT
     // ====================
 
-    $.fn.dropdown.noConflict = function () {
+    $.fn.dropdown.noConflict = function() {
         $.fn.dropdown = old;
         return this
     };
@@ -258,8 +257,9 @@
 
     $(document).off(namespace)
         .on('click' + namespace, closeOpened)
+        .on('show.bs.dropdown', proto.toggle)
         .on('click' + namespace, toggle, proto.toggle)
-        .on('click' + namespace, '.dropdown-menu > li > input[type="checkbox"] ~ label, .dropdown-menu > li > input[type="checkbox"], .dropdown-menu.noclose > li', function (e) {
+        .on('click' + namespace, '.dropdown-menu > li > input[type="checkbox"] ~ label, .dropdown-menu > li > input[type="checkbox"], .dropdown-menu.noclose > li', function(e) {
             e.stopPropagation()
         })
         .on('change' + namespace, '.dropdown-menu > li > input[type="checkbox"], .dropdown-menu > li > input[type="radio"]', proto.change)
