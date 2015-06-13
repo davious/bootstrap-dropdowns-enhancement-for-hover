@@ -48,17 +48,16 @@
             for (var i = 0, s = menuTree.length; i < s; i++) {
                 if (true || !menuTree[i].hasClass(openClass)) {
                     var menuItem = menuTree[i];
-                    menuItem.addClass(openClass);
-                    setTimeout(function() {
-                        menuItem.addClass(openClass);
-                    }, 0);
+                    if($element.attr("aria-expanded")) {
+                        menuTree[i].addClass(openClass);
+                    }
                     positioning(menuTree[i].children('.' + menuClass), menuTree[i]);
                 }
             }
             opened = menuTree[0];
         }
 
-        return true;
+        return !touchSupport;
     };
 
     proto.keydown = function(e) {
