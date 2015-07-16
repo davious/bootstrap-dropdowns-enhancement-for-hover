@@ -1,12 +1,14 @@
-Bootstrap Dropdown Menus Enhancement v3.1.1
-===============================
+Bootstrap Dropdown Menus Enhancement For Hover
+==============================================
 
 Enhancing functionality of dropdown menus.
+
+Forked from [Bootstrap Dropdowns Enhancement](https://github.com/behigh/bootstrap_dropdowns_enhancement)
+to work with [Bootstrap Hover Dropdown](https://github.com/CWSpear/bootstrap-hover-dropdown)
+
 Added the following improvements:
 
 * Sub-Menus
 * Support for radio and checkboxes
 * Positioning of menus
 * Bullet for menus
-
-For demo and docs visit [http://behigh.github.io/bootstrap_dropdowns_enhancement/](http://behigh.github.io/bootstrap_dropdowns_enhancement/)
